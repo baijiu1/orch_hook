@@ -1,11 +1,21 @@
 package main
 
 import (
-	_ "fmt"
-	"orch/failover"
+	"vfailover/myflag"
+	"vfailover/logic"
+	"vfailover/journal"
 )
 
 func main() {
-	//写日志，里面调用了myflag包
-	failover.WriteLogFile()
+	InitCfg, _ := myflag.NewFlagArgs()
+	logger := journal.InitLog(InitCfg.ClusterName)
+	logic.UmountVip(InitCfg, logger)
+	logic.KillMySQLConnection(InitCfg, logger)
+	logic.MountVip(InitCfg, logger)
+	CheckMatch, _ := logic.PingVIP(InitCfg.CmdVipStat, InitCfg.MaxWaitPing, logger)
+	if CheckMatch {
+		logger.Println("vip mount success")
+	} else {
+		logger.Println("There may be some problems with the vip status")
+	}
 }
