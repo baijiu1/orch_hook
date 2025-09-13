@@ -2,9 +2,6 @@
 该脚本为vip漂移脚本，我们是使用的cmdb记录主机的vip等信息的，所以vip是从cmdb取的
 也可以用orchestrator自己的配置：DetectClusterDomainQuery或者其他探测语句把vip写到表里
 
-```
-该项目已迁移至 https://gitee.com/haru_hi/orchestrator.git 进行了更好的优化，也是我们线上在使用的
-```
 ### orchestrator hook
 ```bash
 [root@slave ~]# go build main.go
